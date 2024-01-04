@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """Pascal Triangle"""
 
+
 def pascal_triangle(n):
     """This is the pascal triangle generator"""
     res = []

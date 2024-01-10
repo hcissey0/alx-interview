@@ -5,7 +5,7 @@
 def canUnlockAll(boxes):
     """This function determines if all boxes can be unlocked"""
 
-    if boxes == None:
+    if boxes is None:
         return False
     keys = [0,] + [j for i in boxes for j in i]
     for i, v in enumerate(boxes):

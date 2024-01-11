@@ -47,5 +47,5 @@ def canUnlockAll(boxes):
             if not unlocked[key]:
                 unlocked[key] = True
                 new_keys += [new_key for new_key in boxes[key] if new_key < total_boxes]
-                keys = new_keys
+        keys = new_keys
     return all(unlocked)

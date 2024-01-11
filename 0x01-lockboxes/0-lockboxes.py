@@ -22,9 +22,16 @@ def canUnlockAll(boxes):
 
     # return True
 
-    keys = [0]
-    for i, box in enumerate(boxes):
-        if i != 0 and i in box and keys.count(i) == 0:
-            return False
-        keys.extend(box)
-    return True
+    i = 0
+    total = list(set(boxes[0]) | {0})
+    while i < len(total):
+        newkeys = boxes[total[i]]
+        total += [key for key in newkeys if key not in total]
+        i += 1
+    return len(total) == len(boxes)
+    # keys = [0]
+    # for i, box in enumerate(boxes):
+    #     if i != 0 and i in box and keys.count(i) == 0:
+    #         return False
+    #     keys.extend(box)
+    # return True

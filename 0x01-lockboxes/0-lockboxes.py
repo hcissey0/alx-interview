@@ -37,15 +37,29 @@ def canUnlockAll(boxes):
     #     keys.extend(box)
     # return True
 
+    # total_boxes = len(boxes)
+    # unlocked = [False] * total_boxes
+    # unlocked[0] = True
+    # keys = [key for key in boxes [0] if key < total_boxes]
+    # while keys:
+    #     new_keys = []
+    #     for key in keys:
+    #         if not unlocked[key]:
+    #             unlocked[key] = True
+    #             new_keys += [new_key for new_key in boxes[key] if new_key < total_boxes]
+    #     keys = new_keys
+    # return all(unlocked)
+
     total_boxes = len(boxes)
     unlocked = [False] * total_boxes
-    unlocked[0] = True
-    keys = [key for key in boxes [0] if key < total_boxes]
+
+    keys = [0]
+
     while keys:
-        new_keys = []
-        for key in keys:
-            if not unlocked[key]:
-                unlocked[key] = True
-                new_keys += [new_key for new_key in boxes[key] if new_key < total_boxes]
-        keys = new_keys
+        new_key = keys.pop()
+        if not unlocked[new_key]:
+            unlocked[new_key] = True
+            for key in boxes[new_key]:
+                if key < total_boxes and not unlocked[key]:
+                    keys.append(key)
     return all(unlocked)

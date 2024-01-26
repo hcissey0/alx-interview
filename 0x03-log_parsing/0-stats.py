@@ -36,5 +36,7 @@ try:
         except ValueError:
             pass
 except KeyboardInterrupt:
+    pass
+finally:
     print(f"File size: {t_size}")
     [print(f"{c}: {v}") for c, v in s_codes.items() if v != 0]

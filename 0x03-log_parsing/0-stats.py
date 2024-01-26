@@ -32,11 +32,10 @@ try:
 
             if l_count % 10 == 0:
                 print(f"File size: {t_size}")
-                [print(f"{c}: {v}") for c, v in s_codes.items() if v != 0]
-        except Exception:
+                [print(f"{c}: {s_codes[c]}")
+                        for c in sorted(s_codes) if s_codes[c] != 0]
+        except ValueError:
             pass
 except KeyboardInterrupt:
-    pass
-finally:
     print(f"File size: {t_size}")
-    [print(f"{c}: {v}") for c, v in s_codes.items() if v != 0]
+    [print(f"{c}: {s_codes[c]}") for c in sorted(s_codes) if s_codes[c] != 0]

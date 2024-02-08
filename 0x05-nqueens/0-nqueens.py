@@ -81,6 +81,7 @@ def main():
     board = [[0 for j in range(N)] for i in range(N)]
     solution = []
     solve_nqueens(board, 0, solution)
+    solution.sort(key=lambda x: x[0][1])
     for i in solution:
         print(i)
 

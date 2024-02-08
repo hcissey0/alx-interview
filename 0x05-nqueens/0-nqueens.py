@@ -4,7 +4,7 @@
 import sys
 
 
-def check_valid(board: list[list[int]], row: int, col: int) -> bool:
+def check_valid(board, row, col):
     """To check if the backtrack placement is valid
 
     Args:
@@ -30,9 +30,7 @@ def check_valid(board: list[list[int]], row: int, col: int) -> bool:
     return True  # return True when there's no attack
 
 
-def solve_nqueens(board: list[list[int]],
-                  col: int,
-                  solution: list[list[int]]) -> None:
+def solve_nqueens(board, col, solution):
     """This solves the nqueens with recursion
 
     Args:

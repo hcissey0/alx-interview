@@ -1,32 +1,57 @@
 #!/usr/bin/node
-
 const request = require('request');
 
-function getMovieCharacters(movieId) {
-  const url = `https://swapi-api.alx-tools.com/api/films/${movieId}/`;
-  request(url, (error, response, body) => {
-    if (response && response.statusCode === 200) {
-      const filmData = JSON.parse(body);
-      const characters = filmData.characters;
-      characters.forEach(characterUrl => {
-        request(characterUrl, (error, response, body) => {
-          if (response && response.statusCode === 200) {
-            const characterData = JSON.parse(body);
-            const characterName = characterData.name;
-            console.log(characterName);
-          } else {
-            console.log(`Failed to retrieve character: ${characterUrl}`);
-          }
-        });
-      });
-    } else {
-      console.log(`Failed to retrieve movie: ${url}`);
-    }
-  });
-}
-
 const movieId = process.argv[2];
-getMovieCharacters(movieId);
+const url = `https://swapi-api.alx-tools.com/api/films/${movieId}`;
+
+
+request(url, (error, res, body) => {
+  if (error) {
+    return;
+  }
+  if (res.statusCode !== 200) {
+    return;
+  }
+  const data = JSON.parse(body);
+  const characterUrls = data.characters;
+  characterUrls.forEach((value, index, arr) => {
+    request(value, (error, res, body) => {
+        if (error) {
+            return;
+        }
+        if (res.statusCode !== 200) {
+            return;
+        }
+        const character = JSON.parse(body);
+        console.log(character.name);
+    });
+  });
+});
+// function getMovieCharacters(movieId) {
+//   const url = `https://swapi-api.alx-tools.com/api/films/${movieId}/`;
+//   request(url, (error, response, body) => {
+//     if (response && response.statusCode === 200) {
+//       const filmData = JSON.parse(body);
+//       const characters = filmData.characters;
+//       characters.forEach(characterUrl => {
+//         request(characterUrl, (error, response, body) => {
+//           if (response && response.statusCode === 200) {
+//             const characterData = JSON.parse(body);
+//             const characterName = characterData.name;
+//             console.log(characterName);
+//           } else {
+//             // console.log(`Failed to retrieve character: ${characterUrl}`);
+//           }
+//         });
+//       });
+//     } else {
+//     //   console.log(`Failed to retrieve movie: ${url}`);
+//     }
+//   });
+// }
+
+// const movieId = process.argv[2];
+// getMovieCharacters(movieId);
 // const request = require('request');
 
 // const args = process.argv.slice(2); // Get arguments starting from the 3rd position

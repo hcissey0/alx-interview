@@ -1,53 +1,81 @@
 #!/usr/bin/node
+
 const request = require('request');
 
-const args = process.argv.slice(2); // Get arguments starting from the 3rd position
-const movieId = args[0]; // Assuming first argument is the movie ID
-
-if (!movieId) {
-  console.error('Error: Please provide a movie ID.');
-  process.exit(1);
+function getMovieCharacters(movieId) {
+  const url = `https://swapi.dev/api/films/${movieId}/`;
+  request(url, (error, response, body) => {
+    if (response && response.statusCode === 200) {
+      const filmData = JSON.parse(body);
+      const characters = filmData.characters;
+      characters.forEach(characterUrl => {
+        request(characterUrl, (error, response, body) => {
+          if (response && response.statusCode === 200) {
+            const characterData = JSON.parse(body);
+            const characterName = characterData.name;
+            console.log(characterName);
+          } else {
+            console.log(`Failed to retrieve character: ${characterUrl}`);
+          }
+        });
+      });
+    } else {
+      console.log(`Failed to retrieve movie: ${url}`);
+    }
+  });
 }
 
-const apiUrl = `https://swapi-api.alx-tools.com/api/films/${movieId}`;
+const movieId = process.argv[2];
+getMovieCharacters(movieId);
+// const request = require('request');
 
-request(apiUrl, (error, response, body) => {
-  if (error) {
-    console.error('Error fetching movie data:', error);
-    process.exit(1);
-  }
+// const args = process.argv.slice(2); // Get arguments starting from the 3rd position
+// const movieId = args[0]; // Assuming first argument is the movie ID
 
-  if (response.statusCode !== 200) {
-    console.error('Error:', response.statusCode);
-    process.exit(1);
-  }
+// if (!movieId) {
+//   console.error('Error: Please provide a movie ID.');
+//   process.exit(1);
+// }
 
-  const movieData = JSON.parse(body);
+// const apiUrl = `https://swapi-api.alx-tools.com/api/films/${movieId}`;
 
-  // Extract character URLs from the "characters" list
-  const characterUrls = movieData.characters;
+// request(apiUrl, (error, response, body) => {
+//   if (error) {
+//     console.error('Error fetching movie data:', error);
+//     process.exit(1);
+//   }
 
-  // Fetch and print character names sequentially
-  const fetchCharacter = (url, index) => {
-    request(url, (error, response, body) => {
-      if (error) {
-        console.error('Error fetching character data:', error);
-        process.exit(1);
-      }
+//   if (response.statusCode !== 200) {
+//     console.error('Error:', response.statusCode);
+//     process.exit(1);
+//   }
 
-      if (response.statusCode !== 200) {
-        console.error('Error:', response.statusCode);
-        process.exit(1);
-      }
+//   const movieData = JSON.parse(body);
 
-      const characterData = JSON.parse(body);
-      console.log(characterData.name);
+//   // Extract character URLs from the "characters" list
+//   const characterUrls = movieData.characters;
 
-      if (index < characterUrls.length) {
-        fetchCharacter(characterUrls[index + 1], index + 1);
-      }
-    });
-  };
+//   // Fetch and print character names sequentially
+//   const fetchCharacter = (url, index) => {
+//     request(url, (error, response, body) => {
+//       if (error) {
+//         console.error('Error fetching character data:', error);
+//         process.exit(1);
+//       }
 
-  fetchCharacter(characterUrls[0], 0); // Start fetching the first character
-});
+//       if (response.statusCode !== 200) {
+//         console.error('Error:', response.statusCode);
+//         process.exit(1);
+//       }
+
+//       const characterData = JSON.parse(body);
+//       console.log(characterData.name);
+
+//       if (index < characterUrls.length) {
+//         fetchCharacter(characterUrls[index + 1], index + 1);
+//       }
+//     });
+//   };
+
+//   fetchCharacter(characterUrls[0], 0); // Start fetching the first character
+// });

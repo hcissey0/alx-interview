@@ -25,7 +25,7 @@ request(apiUrl, (error, response, body) => {
   const movieData = JSON.parse(body);
 
   // Extract character URLs from the "characters" list
-  const characterUrls = movieData.characters
+  const characterUrls = movieData.characters;
 
   // Fetch and print character names sequentially
   const fetchCharacter = (url, index) => {

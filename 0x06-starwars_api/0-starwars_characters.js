@@ -9,7 +9,7 @@ if (!movieId) {
   process.exit(1);
 }
 
-const apiUrl = `https://swapi.dev/api/films/${movieId}`;
+const apiUrl = `https://swapi-api.alx-tools.com/api/films/${movieId}`;
 
 request(apiUrl, (error, response, body) => {
   if (error) {
@@ -25,7 +25,7 @@ request(apiUrl, (error, response, body) => {
   const movieData = JSON.parse(body);
 
   // Extract character URLs from the "characters" list
-  const characterUrls = movieData.characters.map(url => url.replace('http://swapi.dev/api/', ''));
+  const characterUrls = movieData.characters
 
   // Fetch and print character names sequentially
   const fetchCharacter = (url, index) => {
@@ -43,7 +43,7 @@ request(apiUrl, (error, response, body) => {
       const characterData = JSON.parse(body);
       console.log(characterData.name);
 
-      if (index < characterUrls.length - 1) {
+      if (index < characterUrls.length) {
         fetchCharacter(characterUrls[index + 1], index + 1);
       }
     });
